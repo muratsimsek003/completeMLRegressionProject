@@ -12,18 +12,18 @@ regmodel=pickle.load(open('regmodel.pkl','rb'))
 def home():
     return render_template('home.html')
 
-@app.route('/predict_api',methods=['POST'])
-def predict_api():
-    data=request.json['data']
-    print(data)
-    output=regmodel.predict(data)
-    print(output[0])
-    return jsonify(output[0])
+# @app.route('/predict_api',methods=['POST'])
+# def predict_api():
+#     data=request.json['data']
+#     output=regmodel.predict(data)
+#     print(output[0])
+#     return jsonify(output[0])
 
 @app.route('/predict',methods=['POST'])
 def predict():
     data=[float(x) for x in request.form.values()]
-    output=regmodel.predict(data)[0]
+    data = [np.array(data)]
+    output=regmodel.predict(data)
     return render_template("home.html",prediction_text="Boston City House Price Prediction is {}".format(output))
 
 
